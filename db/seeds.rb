@@ -9,7 +9,7 @@ Article.destroy_all if Rails.env.development?
 
 require 'faker'
 
-10.times do
+12.times do
   Article.create!(
     title: Faker::TvShows::BreakingBad.episode,
     description: Faker::JapaneseMedia::OnePiece.quote
