@@ -7,6 +7,9 @@
 #   Character.create(name: "Luke", movie: movies.first)
 Article.destroy_all if Rails.env.development?
 
+require 'open-uri'
+require 'nokogiri'
+
 require 'faker'
 
 12.times do
@@ -15,3 +18,16 @@ require 'faker'
     description: Faker::JapaneseMedia::OnePiece.quote
   )
 end
+
+def scrape
+  url = 'https://www.basketusa.com/'
+  html_file = URI.open(url).read
+  doc = Nokogiri::HTML(html_file)
+  doc.search('.list-news').each do |element|
+    title = element.search('h3').text.strip
+    description = element.search('.meta-desc').text.strip
+    Article.create(title: title, description: description)
+  end
+end
+
+scrape
