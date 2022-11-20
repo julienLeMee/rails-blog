@@ -24,10 +24,15 @@ def scrape
   url = 'https://www.basketusa.com/'
   html_file = URI.open(url).read
   doc = Nokogiri::HTML(html_file)
-  doc.search('.list-news').each do |element|
-    title = element.search('h3').first.text.strip
-    description = element.search('.meta-desc').text.strip
-    articles << Article.create!(title: title, description: description)
+  doc.search('section').each do |element|
+    element.search('h3').each do |title_element|
+      title = title_element.text.strip
+      description = element.search('.meta-desc').text.strip
+      articles << Article.create!(title: title, description: description)
+    end
+  end
+  articles.each do |article|
+    article.destroy if article.title == 'Toute l’info NBA en continu'
   end
 end
 
