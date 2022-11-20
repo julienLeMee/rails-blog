@@ -8,7 +8,8 @@
     <% @articles.each do |article| %>
       <div class="card">
         <h2><%= article.title%></h2>
-        <p><%= article.description %></p>
+        <%#  afficher les 100 premiers caractères de la description %>
+        <p><%= article.description[0..30] %></p>
           <%= link_to "Read more", article_path(article), class: "btn btn-primary" %>
       </div>
     <% end %>

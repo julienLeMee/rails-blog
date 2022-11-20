@@ -10,23 +10,24 @@ Article.destroy_all if Rails.env.development?
 require 'open-uri'
 require 'nokogiri'
 
-require 'faker'
+# require 'faker'
 
-12.times do
-  Article.create!(
-    title: Faker::TvShows::BreakingBad.episode,
-    description: Faker::JapaneseMedia::OnePiece.quote
-  )
-end
+# 12.times do
+#   Article.create!(
+#     title: Faker::TvShows::BreakingBad.episode,
+#     description: Faker::JapaneseMedia::OnePiece.quote
+#   )
+# end
 
 def scrape
+  articles = []
   url = 'https://www.basketusa.com/'
   html_file = URI.open(url).read
   doc = Nokogiri::HTML(html_file)
   doc.search('.list-news').each do |element|
-    title = element.search('h3').text.strip
+    title = element.search('h3').first.text.strip
     description = element.search('.meta-desc').text.strip
-    Article.create(title: title, description: description)
+    articles << Article.create!(title: title, description: description)
   end
 end
 
