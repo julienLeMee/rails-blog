@@ -7,8 +7,29 @@
 #   Character.create(name: "Luke", movie: movies.first)
 Article.destroy_all if Rails.env.development?
 
-require 'open-uri'
-require 'nokogiri'
+# require 'open-uri'
+# require 'nokogiri'
+
+# def scrape
+#   articles = []
+#   url = 'https://www.basketusa.com/'
+#   html_file = URI.open(url).read
+#   doc = Nokogiri::HTML(html_file)
+#   doc.search('section')[0..20].each do |element|
+#     element.search('h3').each do |title_element|
+#       title = title_element.text.strip
+#       description = element.search('.meta-desc').text.strip
+#       articles << Article.create!(title: title, description: description)
+#     end
+#   end
+
+#   articles.each do |article|
+#     p article.description
+#     article.destroy if article.title == 'Toute l’info NBA en continu'
+#   end
+# end
+
+# scrape
 
 # require 'faker'
 
@@ -38,22 +59,22 @@ require 'nokogiri'
 
 # scrape
 
-def scrape(url)
-  articles = []
-  html_file = URI.open(url).read
-  doc = Nokogiri::HTML(html_file)
-  doc.search('section').each do |element|
-    element.search('h3').each do |title_element|
-      title = title_element.text.strip
-      description = element.search('.meta-desc').text.strip
-      # element.search('.meta-desc').each do |description_element|
-      #   description = description_element.text.strip
-      articles << Article.create!(title: title, description: description)
-    end
-  end
-  articles.each do |article|
-    article.destroy if article.title == 'Toute l’info NBA en continu'
-  end
-end
+# def scrape(url)
+#   articles = []
+#   html_file = URI.open(url).read
+#   doc = Nokogiri::HTML(html_file)
+#   doc.search('section').each do |element|
+#     element.search('h3').each do |title_element|
+#       title = title_element.text.strip
+#       description = element.search('.meta-desc').text.strip
+#       # element.search('.meta-desc').each do |description_element|
+#       #   description = description_element.text.strip
+#       articles << Article.create!(title: title, description: description)
+#     end
+#   end
+#   articles.each do |article|
+#     article.destroy if article.title == 'Toute l’info NBA en continu'
+#   end
+# end
 
-scrape('https://www.basketusa.com/')
+# scrape('https://www.basketusa.com/')

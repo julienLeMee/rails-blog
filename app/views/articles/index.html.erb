@@ -5,14 +5,17 @@
 <div class="container">
 
   <div class="cards mt-3">
-    <% @articles.each do |article| %>
+    <% @articles[0..20].each do |article| %>
+        <%= link_to article_path(article) do %>
       <div class="card">
-        <h2><%= article.title%></h2>
-        <%#  afficher les 100 premiers caractères de la description %>
-        <p><%= article.description[0..30] %></p>
-          <%= link_to "Read more", article_path(article), class: "btn btn-primary" %>
+          <h5 class="card-title
+          "><%= article.title %></h5>
+          <p class="card-text"><%= article.description %></p>
+        <% end %>
       </div>
     <% end %>
   </div>
+
+
 
 </div>

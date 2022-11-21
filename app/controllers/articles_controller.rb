@@ -1,5 +1,9 @@
+require 'open-uri'
+require 'nokogiri'
+
 class ArticlesController < ApplicationController
   def index
+    scrape
     @articles = Article.all
   end
 
@@ -17,6 +21,25 @@ class ArticlesController < ApplicationController
   end
 
   private
+
+  def scrape
+    articles = []
+    url = 'https://www.basketusa.com/'
+    html_file = URI.open(url).read
+    doc = Nokogiri::HTML(html_file)
+    doc.search('section')[0..20].each do |element|
+      element.search('h3').each do |title_element|
+        title = title_element.text.strip
+        description = element.search('.meta-desc').text.strip
+        articles << Article.create!(title: title, description: description)
+      end
+    end
+
+    articles.each do |article|
+      p article.description
+      article.destroy if article.title == 'Toute l’info NBA en continu'
+    end
+  end
 
   def article_params
     params.require(:article).permit(:title, :description)
