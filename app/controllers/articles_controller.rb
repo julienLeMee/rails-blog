@@ -29,8 +29,10 @@ class ArticlesController < ApplicationController
     doc.search('section')[0..20].each do |element|
       element.search('h3').each do |title_element|
         title = title_element.text.strip
-        description = element.search('.meta-desc').text.strip
-        articles << Article.create!(title: title, description: description)
+        element.search('.meta-desc').each do |description_element|
+          description = description_element.text.strip
+          articles << Article.create!(title: title, description: description)
+        end
       end
     end
 
