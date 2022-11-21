@@ -21,6 +21,7 @@ class ArticlesController < ApplicationController
   end
 
   def scrape
+    Article.destroy_all if Rails.env.development?
     articles = []
     url = 'https://www.basketusa.com/'
     html_file = URI.open(url).read
