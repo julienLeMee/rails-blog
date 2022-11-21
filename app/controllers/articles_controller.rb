@@ -20,8 +20,6 @@ class ArticlesController < ApplicationController
     @article.save
   end
 
-  private
-
   def scrape
     articles = []
     url = 'https://www.basketusa.com/'
@@ -36,10 +34,11 @@ class ArticlesController < ApplicationController
     end
 
     articles.each do |article|
-      p article.description
       article.destroy if article.title == 'Toute l’info NBA en continu'
     end
   end
+
+  private
 
   def article_params
     params.require(:article).permit(:title, :description)
