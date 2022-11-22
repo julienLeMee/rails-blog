@@ -23,20 +23,26 @@ class ArticlesController < ApplicationController
   def scrape
     Article.destroy_all if Rails.env.development?
     articles = []
+    titles = []
+    descriptions = []
     url = 'https://www.basketusa.com/'
     html_file = URI.open(url).read
     doc = Nokogiri::HTML(html_file)
     doc.search('section')[0..20].each do |element|
       element.search('h3').each do |title_element|
-        title = title_element.text.strip
-        description = element.search('.meta-desc').text.strip
-        articles << Article.create!(title: title, description: description)
+        titles << title_element.text.strip
+      end
+      element.search('.meta-desc').each do |description_element|
+        descriptions << description_element.text.strip
+      end
+    end
+    titles.each_with_index do |title, index|
+      articles << Article.create!(title: title, description: descriptions[index])
+    end
+        # title = title_element.text.strip
         # element.search('.meta-desc').each do |description_element|
         #   description = description_element.text.strip
         #   articles << Article.create!(title: title, description: description)
-        # end
-      end
-    end
 
     articles.each do |article|
       article.destroy if article.title == 'Toute l’info NBA en continu'
