@@ -1,23 +1,23 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
-# Article.destroy_all if Rails.env.development?
+# # This file should contain all the record creation needed to seed the database with its default values.
+# # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
+# #
+# # Examples:
+# #
+# #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
+# #   Character.create(name: "Luke", movie: movies.first)
+# # Article.destroy_all if Rails.env.development?
 
-# require 'open-uri'
-# require 'nokogiri'
+# # require 'open-uri'
+# # require 'nokogiri'
 
-# require 'faker'
+# # require 'faker'
 
-# 12.times do
-#   Article.create!(
-#     title: Faker::TvShows::BreakingBad.episode,
-#     description: Faker::JapaneseMedia::OnePiece.quote
-#   )
-# end
+# # 12.times do
+# #   Article.create!(
+# #     title: Faker::TvShows::BreakingBad.episode,
+# #     description: Faker::JapaneseMedia::OnePiece.quote
+# #   )
+# # end
 
 # def scrape
 #   Article.destroy_all if Rails.env.development?
@@ -32,11 +32,25 @@
 #     element.search('h3').each do |title_element|
 #       titles << title_element.text.strip
 #     end
-#     element.search('.meta-desc').each do |description_element|
-#       descriptions << description_element.text.strip
-#     end
+#     # element.search('.meta-desc').each do |description_element|
+#     #   descriptions << description_element.text.strip
+#     # end
 #     element.search('img').each do |image_element|
 #       images << image_element.attribute('data-src').value
+#     end
+#     element.search('a')[0..7].each do |link|
+#       article_url = link.attribute('href').value if link.attribute('href').value.include?('https://www.basketusa.com/news/')
+#       article_html_file = URI.open(article_url).read
+#       article_doc = Nokogiri::HTML(article_html_file)
+#       p article_doc
+#       # article_doc.search('p').each do |description_element|
+#       #   descriptions << description_element.text.strip
+#       # end
+
+#       # article_doc = Nokogiri::HTML(article_html_file)
+#       # article_doc.search('p').each do |description_element|
+#       #   descriptions << description_element.text.strip
+#       # end
 #     end
 #   end
 #   titles.each_with_index do |title, index|
@@ -49,7 +63,6 @@
 
 #   articles.each do |article|
 #     article.destroy if article.title == 'Toute l’info NBA en continu'
-#     p article.image
 #   end
 # end
 

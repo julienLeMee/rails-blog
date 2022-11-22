@@ -33,12 +33,20 @@ class ArticlesController < ApplicationController
       element.search('h3').each do |title_element|
         titles << title_element.text.strip
       end
-      element.search('.meta-desc').each do |description_element|
-        descriptions << description_element.text.strip
-      end
+      # element.search('.meta-desc').each do |description_element|
+      #   descriptions << description_element.text.strip
+      # end
       element.search('img').each do |image_element|
         images << image_element.attribute('data-src').value
       end
+      # element.search('a').each do |link|
+      #   article_url = link.attribute('href').value
+      #   article_html_file = URI.open(article_url).read
+      #   article_doc = Nokogiri::HTML(article_html_file)
+      #   article_doc.search('p').each do |description_element|
+      #     descriptions << description_element.text.strip
+      #   end
+      # end
     end
     titles.each_with_index do |title, index|
       articles << Article.create!(title: title, description: descriptions[index], image: images[index])
