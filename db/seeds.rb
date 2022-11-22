@@ -10,27 +10,6 @@
 # require 'open-uri'
 # require 'nokogiri'
 
-# def scrape
-#   articles = []
-#   url = 'https://www.basketusa.com/'
-#   html_file = URI.open(url).read
-#   doc = Nokogiri::HTML(html_file)
-#   doc.search('section')[0..20].each do |element|
-#     element.search('h3').each do |title_element|
-#       title = title_element.text.strip
-#       description = element.search('.meta-desc').text.strip
-#       articles << Article.create!(title: title, description: description)
-#     end
-#   end
-
-#   articles.each do |article|
-#     p article.description
-#     article.destroy if article.title == 'Toute l’info NBA en continu'
-#   end
-# end
-
-# scrape
-
 # require 'faker'
 
 # 12.times do
@@ -43,25 +22,34 @@
 # def scrape
 #   Article.destroy_all if Rails.env.development?
 #   articles = []
+#   titles = []
+#   descriptions = []
+#   images = []
 #   url = 'https://www.basketusa.com/'
 #   html_file = URI.open(url).read
 #   doc = Nokogiri::HTML(html_file)
-#   title = doc.search('section')[0..20].each do |element|
-#       element.search('h3').each do |title_element|
-#         title_element.text.strip
-#       end
+#   doc.search('section')[0..20].each do |element|
+#     element.search('h3').each do |title_element|
+#       titles << title_element.text.strip
 #     end
-#   description = doc.search('section')[0..20].each do |element|
-#       element.search('.meta-desc').each do |description_element|
-#         description_element.text.strip
-#       end
+#     element.search('.meta-desc').each do |description_element|
+#       descriptions << description_element.text.strip
 #     end
-#   articles << Article.create!(title: title, description: description)
+#     element.search('img').each do |image_element|
+#       images << image_element.attribute('data-src').value
+#     end
+#   end
+#   titles.each_with_index do |title, index|
+#     articles << Article.create!(title: title, description: descriptions[index], image: images[index])
+#   end
+#       # title = title_element.text.strip
+#       # element.search('.meta-desc').each do |description_element|
+#       #   description = description_element.text.strip
+#       #   articles << Article.create!(title: title, description: description)
 
-#   articles.each_with_index do |article, index|
+#   articles.each do |article|
 #     article.destroy if article.title == 'Toute l’info NBA en continu'
-#     p "#{index + 1} - #{article.title}"
-#     p "#{index + 1} - #{article.description}"
+#     p article.image
 #   end
 # end
 

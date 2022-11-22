@@ -25,6 +25,7 @@ class ArticlesController < ApplicationController
     articles = []
     titles = []
     descriptions = []
+    images = []
     url = 'https://www.basketusa.com/'
     html_file = URI.open(url).read
     doc = Nokogiri::HTML(html_file)
@@ -35,9 +36,12 @@ class ArticlesController < ApplicationController
       element.search('.meta-desc').each do |description_element|
         descriptions << description_element.text.strip
       end
+      element.search('img').each do |image_element|
+        images << image_element.attribute('data-src').value
+      end
     end
     titles.each_with_index do |title, index|
-      articles << Article.create!(title: title, description: descriptions[index])
+      articles << Article.create!(title: title, description: descriptions[index], image: images[index])
     end
         # title = title_element.text.strip
         # element.search('.meta-desc').each do |description_element|
@@ -52,6 +56,6 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :description)
+    params.require(:article).permit(:title, :description, :image)
   end
 end
