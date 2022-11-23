@@ -29,13 +29,14 @@ class ArticlesController < ApplicationController
     url = 'https://www.basketusa.com/'
     html_file = URI.open(url).read
     doc = Nokogiri::HTML(html_file)
-    doc.search('section')[0..20].each do |element|
-      element.search('h3').each do |title_element|
+    doc.search('section.box')[0..20].each do |element|
+      element.search('.title').each do |title_element|
         titles << title_element.text.strip
       end
       # element.search('.meta-desc').each do |description_element|
       #   descriptions << description_element.text.strip
       # end
+      #parcourir les images qui ont la classe lazy et qui ne sont pas dans la div box-reportage:
       element.search('img').each do |image_element|
         images << image_element.attribute('data-src').value
       end
