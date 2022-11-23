@@ -29,7 +29,7 @@ class ArticlesController < ApplicationController
     url = 'https://www.basketusa.com/'
     html_file = URI.open(url).read
     doc = Nokogiri::HTML(html_file)
-    doc.search('section.box')[0..20].each do |element|
+    doc.search('section.box').each do |element|
       element.search('.title').each do |title_element|
         titles << title_element.text.strip
       end

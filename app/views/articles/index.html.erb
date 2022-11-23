@@ -2,19 +2,30 @@
   <h1 class="text-center">In development...</h1>
 </div>
 
-<div class="container">
 
-  <div class="cards mt-3">
-    <% @articles[0..20].each do |article| %>
-        <%= link_to article_path(article) do %>
-          <div class="card">
+
+<div class="cards mt-3">
+  <% @articles.each_with_index do |article, index| %>
+        <div class="article d-flex align-items-center justify-content-center">
           <img src="<%= article.image %>" alt="image basket">
-            <h5 class="card-title"><%= article.title %></h5>
+          <div class="title-container d-flex flex-column">
+            <h3 class="card-title"><%= article.title %></h3>
+            <%= link_to 'Go to article', article_path(article), class: 'btn btn-outline-light mt-5' %>
           </div>
-        <% end %>
-    <% end %>
-  </div>
-
-
-
+        </div>
+  <% end %>
 </div>
+
+<%
+=begin %>
+
+<% if index.even? %>
+  <h3 class="card-title"><%= article.title %></h3>
+  <%= link_to 'Go to article', article_path(article), class: 'btn btn-outline-light mt-5' %>
+<% else %>
+  <%= link_to 'Go to article', article_path(article), class: 'btn btn-outline-light mt-5' %>
+  <h3 class="card-title"><%= article.title %></h3>
+<% end %>
+
+<%
+=end %>
