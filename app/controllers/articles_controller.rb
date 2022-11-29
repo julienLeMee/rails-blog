@@ -36,7 +36,7 @@ class ArticlesController < ApplicationController
       # element.search('.meta-desc').each do |description_element|
       #   descriptions << description_element.text.strip
       # end
-      #parcourir les images qui ont la classe lazy et qui ne sont pas dans la div box-reportage:
+
       element.search('img').each do |image_element|
         images << image_element.attribute('data-src').value
       end
