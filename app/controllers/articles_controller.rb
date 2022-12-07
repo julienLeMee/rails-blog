@@ -4,13 +4,11 @@ require 'nokogiri'
 class ArticlesController < ApplicationController
   def index
     scrape
-    # scrape_each_article
     @articles = Article.all
   end
 
   def show
     @article = Article.find(params[:id])
-    # scrape_each_article
   end
 
   def new
@@ -51,6 +49,11 @@ class ArticlesController < ApplicationController
       #   end
       # end
     end
+
+    doc.search('feed-news').each do |link|
+      p link.attribute('href').value if link.attribute('href').value.include?('https://www.basketusa.com/news/')
+    end
+
     titles.each_with_index do |title, index|
       articles << Article.create!(title: title, description: descriptions[index], image: images[index])
     end
@@ -59,17 +62,6 @@ class ArticlesController < ApplicationController
       article.destroy if article.title == 'Toute l’info NBA en continu'
     end
   end
-
-  # def scrape_each_article
-  #   url = 'https://www.basketusa.com/'
-  #   html_file = URI.open(url).read
-  #   doc = Nokogiri::HTML(html_file)
-  #   doc.search('.list-news').each do |element|
-  #     element.search('a').each do |link|
-  #       @article.url = link.attribute('href').value
-  #     end
-  #   end
-  # end
 
   private
 

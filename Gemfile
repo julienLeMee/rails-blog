@@ -50,6 +50,7 @@ gem "bootsnap", require: false
 
 # custom
 gem "faker"
+gem "pg_search"
 
 
 group :development, :test do

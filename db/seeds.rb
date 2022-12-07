@@ -38,39 +38,24 @@
 #     element.search('img').each do |image_element|
 #       images << image_element.attribute('data-src').value
 #     end
-#     element.search('a')[0..7].each do |link|
+#     element.search('a')[0..6].each do |link|
 #       p link.attribute('href').value if link.attribute('href').value.include?('https://www.basketusa.com/news/')
-#     end
-#       # article_doc.search('p').each do |description_element|
-#       #   descriptions << description_element.text.strip
-#       # end
-
+#       # article_html_file = URI.open(article_link).read
 #       # article_doc = Nokogiri::HTML(article_html_file)
-#       # article_doc.search('p').each do |description_element|
-#       #   descriptions << description_element.text.strip
+#       # article_doc.search('.article').each do |description_element|
+#       #   # descriptions << description_element.text.strip
+#       #   p description_element.text.strip
 #       # end
+#     end
 #   end
+
 #   titles.each_with_index do |title, index|
 #     articles << Article.create!(title: title, description: descriptions[index], image: images[index])
 #   end
-#       # title = title_element.text.strip
-#       # element.search('.meta-desc').each do |description_element|
-#       #   description = description_element.text.strip
-#       #   articles << Article.create!(title: title, description: description)
 
 #   articles.each do |article|
 #     article.destroy if article.title == 'Toute l’info NBA en continu'
 #   end
 # end
 
-# def scrape_each_article
-#   @urls = []
-#   url = 'https://www.basketusa.com/'
-#   html_file = URI.open(url).read
-#   doc = Nokogiri::HTML(html_file)
-#   doc.search('.list-news').each do |element|
-#     element.search('a').each do |link|
-#       @urls << link.attribute('href').value
-#     end
-#   end
-# end
+# scrape
