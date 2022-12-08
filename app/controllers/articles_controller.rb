@@ -4,7 +4,13 @@ require 'nokogiri'
 class ArticlesController < ApplicationController
   def index
     scrape
-    @articles = Article.all
+    if params[:query].present?
+      sql_query = "title ILIKE :query OR synopsis ILIKE :query"
+      @articles = Article.where(sql_query, query: "%#{params[:query]}%")
+      @articles = Article.where(url: params[:query])
+    else
+      @articles = Article.all
+    end
   end
 
   def show
@@ -26,6 +32,7 @@ class ArticlesController < ApplicationController
     titles = []
     descriptions = []
     images = []
+    urls = []
     url = 'https://www.basketusa.com/'
     html_file = URI.open(url).read
     doc = Nokogiri::HTML(html_file)
@@ -51,11 +58,11 @@ class ArticlesController < ApplicationController
     end
 
     doc.search('feed-news').each do |link|
-      p link.attribute('href').value if link.attribute('href').value.include?('https://www.basketusa.com/news/')
+      urls << link.attribute('href').value if link.attribute('href').value.include?('https://www.basketusa.com/news/')
     end
 
     titles.each_with_index do |title, index|
-      articles << Article.create!(title: title, description: descriptions[index], image: images[index])
+      articles << Article.create!(title: title, description: descriptions[index], image: images[index], url: urls[index])
     end
 
     articles.each do |article|
