@@ -6,14 +6,12 @@
 
 <div class="search-form mb-5">
   <%= form_with url: root_path, method: :get, class: "d-flex" do %>
-    <%= text_field_tag :query,
-      params[:query],
-      class: "form-control",
-      placeholder: "Find a team"
-    %>
+    <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Find a team" %>
     <%= submit_tag "Search", class: "btn btn-primary" %>
   <% end %>
 </div>
+
+<%# `https://www.basketusa.com/equipe/#{query}` %>
 
   <% @articles.each do |article| %>
     <div class="card mb-3" style="max-width: 540px">
